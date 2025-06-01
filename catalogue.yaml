@@ -2,10 +2,10 @@
   hosts: catalogue
   tasks:
   - name: disabling nodejs
-    anasible.builtin.commad: dnf disable nodejs -y
+    anasible.builtin.command: dnf disable nodejs -y
      
   - name: enabling nodejs
-    ansible.buildin.commans: dnf module enable nodejs:20 -y
+    ansible.buildin.command: dnf module enable nodejs:20 -y
     
   - name: installing nodejs 20
     ansible.builtin.package:
@@ -23,3 +23,10 @@
       home : /app
       system: yes
       shell: /sbin/nologin
+
+  - name: dwonloading application
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+  
