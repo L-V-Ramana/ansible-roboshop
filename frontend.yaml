@@ -16,24 +16,24 @@
 
   - name: start and enable nginx
     ansible.builtin.service:
-      name: ngnix
+      name: nginx
       state: started
       enabled: yes
+
+  - name: removing the content from index.html
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: absent
+
+  - name: creating the content from index.html
+    ansible.builtin.file:
+      path: /usr/share/nginx/html
+      state: directory
   
   - name: installing frontend content
     ansible.builtin.get_url:
       url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
       dest: /tmp/frontend.zip
-
-  - name: removing the content from index.html
-    ansible.builtin.file:
-      path: "/usr/share/nginx/html/*" 
-      state: absent
-
-  - name: removing the content from index.html
-    ansible.builtin.file:
-      path: "/usr/share/nginx/html"
-      state: directory
 
   - name: unzipping the content of html
     ansible.builtin.unarchive:
