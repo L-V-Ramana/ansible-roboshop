@@ -4,7 +4,7 @@
   tasks:
   - name: copying mongorepo to server
     ansible.builtin.copy:
-      scr: mongo.repo
+      src: mongo.repo
       dest: /etc/yum.repos.d/mongo.repo  
   
   - name: installing mongodb
