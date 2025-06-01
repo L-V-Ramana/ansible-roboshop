@@ -22,7 +22,7 @@
   - name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
     ansible.builtin.user:
       name: roboshop
-      shell: /bin/nologin
+      shell: /sbin/nologin
       system : yes
       home: /app
       
@@ -52,6 +52,6 @@
 
   - name: start and enable cart.service
     ansible.builtin.service:
-      name: cart.service
+      name: cart
       state: started
       enabled: yes
