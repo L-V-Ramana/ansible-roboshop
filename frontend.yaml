@@ -50,4 +50,4 @@
   - name: system restart
     ansible.builtin.service:
       name: nginx
-      state: started
+      state: restarted
