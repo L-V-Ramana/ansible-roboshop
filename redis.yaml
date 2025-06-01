@@ -22,7 +22,7 @@
     - name: Replace old protectedmode with new hostname (requires Ansible >= 2.4)
       ansible.builtin.lineinfile:
         path: /etc/redis/redis.conf
-        regexp: 'protected-mode'
+        regexp: protected-mode
         line: protected-mode no
 
     - name: start and enable redis
