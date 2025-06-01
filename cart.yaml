@@ -2,7 +2,7 @@
   hosts: cart
   become: yes
   tasks:
-  
+
   - name: disabling nodejs
     ansible.builtin.command: dnf module disable nodejs -y
   
@@ -10,7 +10,7 @@
     ansible.builtin.command: dnf module enable nodejs:20 -y
 
   - name: instlling nodejs
-    ansible installing nodejs:
+    ansible.builtin.nodejs:
       name: nodejs
       state: present
 
