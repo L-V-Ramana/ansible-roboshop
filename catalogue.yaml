@@ -2,7 +2,7 @@
   hosts: catalogue
   tasks:
   - name: disabling nodejs
-    anasible.builtin.command: dnf disable nodejs -y
+    ansible.builtin.command: dnf disable nodejs -y
      
   - name: enabling nodejs
     ansible.buildin.command: dnf module enable nodejs:20 -y
