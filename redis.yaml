@@ -11,7 +11,7 @@
     - name: installng redis
       ansible.builtin.package:
        name: redis 
-       status: present
+       state: present
 
     - name: Replace old hostname with new hostname (requires Ansible >= 2.4)
       ansible.builtin.replace:
