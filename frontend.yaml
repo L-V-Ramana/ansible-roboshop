@@ -22,8 +22,8 @@
   
   - name: installing frontend content
     ansible.builtin.get_url:
-    url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-    dest: /tmp/frontend.zip
+      url: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+      dest: /tmp/frontend.zip
 
   - name: removing the content from index.html
     ansible.builtin.file:
