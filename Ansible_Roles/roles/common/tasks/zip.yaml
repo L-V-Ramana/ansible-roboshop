@@ -1,0 +1,4 @@
+- name: insatalling zip
+  ansible.builtin.package:
+    name: zip
+    state: installed
