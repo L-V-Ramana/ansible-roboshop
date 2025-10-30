@@ -1,0 +1,77 @@
+- name: settingup catalogue
+  become: yes
+  hosts: catalogue
+  tasks:
+  - name: disabling default node js
+    ansible.builtin.command: "dnf module disable nodejs -y"
+    register: "command_output"
+      
+ 
+  - name: enabling nodejs 20
+    ansible.builtin.service:
+      name: nodejs:20
+      enabled: yes
+ 
+  - name: installing node js
+    ansible.builtin.package:
+      name: nodejs
+      state: present
+
+  - name: Change file ownership, group and permissions
+    ansible.builtin.file:
+      path: /app
+      state: directory
+
+  - name: creating roboshop system user
+    ansible.builtin.user:
+      name: roboshop
+      system: true
+      shell: /sbin/nologin
+      home: /app
+  
+  - name: downloading the catalogue
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+      dest: /tmp/catalogue.zip
+
+  - name: unzipping the app
+    ansible.builtin.unarchive:
+      src: /tmp/catalogue
+      dest: /app
+      remote_src: yes #here if we use yes means Unarchive a file that is already on the remote machine
+  
+  - name: Install "coffee-script" node.js package.
+    community.general.npm:
+      path: /app
+  
+  - name: copying catalogue.service to systemd
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/system/systemd/catalogue.service
+
+  - name: daemon-reload
+    ansible.builtin.command: "systemctl daemon-reload"
+
+  - name: starting and enabling
+    ansible.builtin.service:
+      name: catalogue
+      state: started
+      enabled: yes
+
+  - name: copying mongodb
+    ansible.builtin.copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: ansible installing mongosh
+    ansible.builtin.package:
+      name: mongodb-mongosh
+      state: present
+    
+  - name: loading data from mongodb
+    ansible.builtin.command: mongosh --host mongodb.daws84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    register: command_output
+
+  - name: checking data is loaded or not
+    ansible.builtin.shell: "mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js"
+    when: command_output

@@ -1,0 +1,10 @@
+- name: inatalling nginx
+  ansible.builtin.pacckage:
+    name: nginx
+    state: present
+  when: number< 4
+
+- name: installing mysql
+  include_role:
+    name: common
+    tasks_from: mysql.yaml

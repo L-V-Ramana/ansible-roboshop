@@ -1,0 +1,56 @@
+- name: shipping component
+  hosts: shipping
+  become: yes
+  tasks:
+  - name: installing maven
+    ansible.builtin.package:
+      name: maven
+      status: present
+    
+  - name: creating system user
+    ansible.builtin.user:
+      name: roboshop
+      shell: /bin/nologin
+      create_home: yes
+      home: /app
+
+  - name: create home directory 
+    ansible.builtin.file:
+      name: /app
+      state : directory
+
+  - name: downloading app content
+    ansible.builtin.get_url:
+      url:  https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+      dest:  /tmp/shipping.zip
+
+  - name: unzipping app in server
+    ansibel.builtin.unarchive:
+     src: /tmp/shipping.zip
+     dest: /app
+     remote_src: yes
+
+  - name: ansible clean package
+    ansible.builtin.command: mvn clean package 
+
+  - name: movingshipping
+    ansible.builtin.commad: mv target/shipping-1.0.jar shipping.jar
+
+  - name: copying service to app server
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+      remote_src: yes
+
+  - name: Restart service cron on centos, in all cases, also issue daemon-reload to pick up config changes
+    ansible.builtin.systemd_service:
+    state: restarted
+    daemon_reload: true
+    name: shipping.service
+
+  - name: starteing and enabling shipping.service
+    ansible.builtin.service:
+      name: shipping
+      state: started
+      enabled: yes
+

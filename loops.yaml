@@ -1,0 +1,18 @@
+- name: loops
+  hosts: local 
+  connection: local
+  tasks:
+    ansible.builtin.debug:
+      msg: "{{ item }}"
+      msg: "{{ item.name }}"
+      msg: "{{ item.skill }}"
+    loop:
+      - java
+      - python
+      - devops
+      - springboot
+      - {'name':'ramana','skill':'java'}
+      - { 'name':'sai', skill: 'testind'}
+
+      
+

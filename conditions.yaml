@@ -1,0 +1,19 @@
+- name: condtion with prompts
+  hosts: local
+  connection: local
+  vars: 
+    name: ramana
+  vars_files:
+    - couse.yaml
+  tasks:
+  # vars-prompt:
+  # - name: number
+  #   prompt: please enter number
+  #   visible: false
+  - name: printing number
+    vars:
+      name: ramana
+    ansible.builtin.debug:
+      msg: "{{number}}"
+    when: number < 10
+      
