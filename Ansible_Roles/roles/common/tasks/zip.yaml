@@ -2,3 +2,7 @@
   ansible.builtin.package:
     name: zip
     state: present
+
+- name: printing inside zip
+  ansible.builtin.debug:
+    msg: "printing zip"
