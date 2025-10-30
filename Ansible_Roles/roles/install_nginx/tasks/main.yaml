@@ -11,7 +11,7 @@
 - name: installing zip
   tags:
   - zip
-  import_role:
+  include_role:
     name: common
     tasks_from: zip.yaml
-  when:  number < 1
+  
