@@ -1,0 +1,5 @@
+- name: install install_nginx
+  ansible.builtin.package:
+    name: nginx       
+    state: present
+  

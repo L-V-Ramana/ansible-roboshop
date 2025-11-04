@@ -1,0 +1,5 @@
+- name: deployment
+  hosts: all
+  becoem: yes
+  roles:
+  - deployment

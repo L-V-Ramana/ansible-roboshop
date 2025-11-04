@@ -1,0 +1,9 @@
+- name: install nginx
+  include_role:
+    name: common
+    tasks_from: nginx.yaml
+
+- name: downloading the catalogue
+  ansible.builtin.get_url:
+    url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-{{ version }}.zip
+    dest: /tmp/catalogue.zip  
